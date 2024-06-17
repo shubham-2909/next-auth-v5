@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,20 +15,24 @@ import { UpdateProfileValues, updateProfileSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { updateProfile } from "./actions";
-
-export default function SettingsPage() {
+import { User } from "next-auth";
+import { useSession } from "next-auth/react";
+interface props {
+  user: User;
+}
+export default function SettingsPage({ user }: props) {
   const { toast } = useToast();
-
+  const session = useSession();
   const form = useForm<UpdateProfileValues>({
     resolver: zodResolver(updateProfileSchema),
-    // TODO: Add default value from current user
-    defaultValues: { name: "" },
+    defaultValues: { name: user.name || "" },
   });
 
   async function onSubmit(data: UpdateProfileValues) {
     try {
       await updateProfile(data);
       toast({ description: "Profile updated." });
+      session.update()
     } catch (error) {
       toast({
         variant: "destructive",

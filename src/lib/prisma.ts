@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
 const prismaClientSingleton = () => {
-  // TODO: Make this edge-compatible
   return new PrismaClient();
 };
 
