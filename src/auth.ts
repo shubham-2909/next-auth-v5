@@ -7,9 +7,6 @@ import Github from "next-auth/providers/github"
 import Resend from "next-auth/providers/resend"
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
-  theme: {
-    logo: "/logo.png",
-  },
   providers: [Google, Github, Resend({
     from: "no-reply@emails.webdevka14.in"
   })],
